@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Basic Data Structures</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; background: #ffffff; }
+    h1 { text-align: center; font-size: 3em; }
+    .container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+    .ds-box {
+      background: #ed9e44;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px #0001;
+      padding: 20px;
+      width: 320px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      cursor: pointer;
+      transition: box-shadow 0.2s;
+    }
+    .ds-box:hover { box-shadow: 0 4px 16px #0002; }
+    .ds-box h2 { margin-top: 0; }
+    .output { background: #f0f0f0; padding: 8px; border-radius: 4px; min-height: 32px; margin-bottom: 8px; }
+    input[type="text"], input[type="number"] { width: 53%; padding: 4px; margin-bottom: 8px; }
+    button { margin: 2px 0; padding: 4px 2px; }
+    .actions { margin-bottom: 8px; }
+    .logo-top-right {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+    .input-error {
+      border: 2px solid #e74c3c !important;
+      background: #ffeaea !important;
+      animation: shake 0.2s 2;
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      50% { transform: translateX(4px); }
+      75% { transform: translateX(-4px); }
+      100% { transform: translateX(0); }
+    }
+    #stack-log,
+    #queue-log,
+    #ll-log,
+    #array-log,
+    #set-log,
+    #tree-log,
+    #heap-log,
+    #hash-log {
+      background: #f8f8f8;
+      min-height: 200px;
+      overflow-y: auto;
+      font-size: 0.92em;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-top-right">
+    <img src="lpu.jpeg" alt="Logo" style="width:220px;height:48px;">
+  </div>
+  <h1>Basic Data Structures</h1>
+  <div class="container">
+    <div class="ds-box" id="stack-box">
+      <h2>
+        <a href="javascript:void(0)" onclick="openDSInfo('stack')" style="color:inherit;text-decoration:underline;cursor:pointer;">
+          Stack (LIFO)
+        </a>
+      </h2>
+      <div class="output" id="stack-output"></div>
+      <div class="actions">
+        <input type="text" id="stack-input" placeholder="Enter value">
+        <button onclick="stackPush();event.stopPropagation();">Push</button>
+        <button onclick="stackPop();event.stopPropagation();">Pop</button>
+        <button onclick="stackClear()">Clear</button>
+        <button onclick="stackRandom()">Random Data</button>
+        <button onclick="toggleCode('stack')">Code View</button>
+      </div>
+      <div id="stack-log" style="background:#f8f8f8;border-radius:4px;padding:6px;height:120px;overflow-y:auto;font-size:0.92em;margin-top:0px;"></div>
+      <pre id="stack-code" style="display:none;background:#ffffff;color:#000000;padding:10px;border-radius:6px;overflow-x:auto;margin-top:8px;">
+// C implementation
+#define MAX 100
+int stack[MAX], top = -1;
+void push(int val) { if(top < MAX-1) stack[++top] = val; }
+int pop() { return (top >= 0) ? stack[top--] : -1; }
+
+// C++ implementation
+#include &lt;stack&gt;
+std::stack&lt;int&gt; s;
+s.push(1);
+s.pop();
+  </pre>
+    </div>
+    <div class="ds-box" id="queue-box">
+      <h2>
+        <a href="javascript:void(0)" onclick="openDSInfo('queue')" style="color:inherit;text-decoration:underline;cursor:pointer;">
+          Queue (FIFO)
+        </a>
+      </h2>
+      <div class="output" id="queue-output"></div>
+      <div class="actions">
+        <input type="text" id="queue-input" placeholder="Enter value">
+        <button onclick="queueEnqueue()">Enqueue</button>
+        <button onclick="queueDequeue()">Dequeue</button>
+        <button onclick="queueClear()">Clear</button>
+        <button onclick="queueRandom()">Random Data</button>
+        <button onclick="toggleCode('queue')">Code View</button>
+      </div>
+      <div id="queue-log" style="background:#f8f8f8;border-radius:4px;padding:6px;height:120px;overflow-y:auto;font-size:0.92em;"></div>
+      <pre id="queue-code" style="display:none;background:#ffffff;color:#000000;padding:10px;border-radius:6px;overflow-x:auto;margin-top:8px;">
+// C implementation
+#define MAX 100
+int queue[MAX], front = 0, rear = -1;
+void enqueue(int val) { if(rear < MAX-1) queue[++rear] = val; }
+int dequeue() { return (front <= rear) ? queue[front++] : -1; }
+
+// C++ implementation
+#include &lt;queue&gt;
+std::queue&lt;int&gt; q;
+q.push(1);
+q.pop();
+  </pre>
+    </div>
+    <div class="ds-box" id="ll-box">
+      <h2>
+        <a href="javascript:void(0)" onclick="openDSInfo('linkedlist')" style="color:inherit;text-decoration:underline;cursor:pointer;">
+          Singly Linked List
+        </a>
+      </h2>
+      <div class="output" id="ll-output"></div>
+      <div class="actions">
+        <input type="text" id="ll-input" placeholder="Enter value">
+        <button onclick="llAdd()">Add</button>
+        <button onclick="llRemove()">Remove Head</button>
+        <button onclick="llClear()">Clear</button>
+        <button onclick="llRandom()">Random Data</button>
+        <button onclick="toggleCode('ll')">Code View</button>
+      </div>
+      <div id="ll-log" style="background:#f8f8f8;border-radius:4px;padding:6px;height:120px;overflow-y:auto;font-size:0.92em;"></div>
+      <pre id="ll-code" style="display:none;background:#ffffff;color:#000000;padding:10px;border-radius:6px;overflow-x:auto;margin-top:8px;">
+// C implementation
+struct Node { int data; struct Node* next; };
+struct Node* head = NULL;
+
+// C++ implementation
+struct Node { int data; Node* next; };
+Node* head = nullptr;
+  </pre>
+    </div>
+    <div class="ds-box" id="array-box">
+      <h2>
+        <a href="javascript:void(0)" onclick="openDSInfo('array')" style="color:inherit;text-decoration:underline;cursor:pointer;">
+          Array
+        </a>
+      </h2>
+      <div class="output" id="array-output"></div>
+      <div class="actions">
+        <input type="text" id="array-input" placeholder="Enter value">
+        <button onclick="arrayAdd()">Add</button>
+        <button onclick="arrayRemove()">Remove Last</button>
+        <button onclick="arrayClear()">Clear</button>
+        <button onclick="arrayRandom()">Random Data</button>
+        <button onclick="toggleCode('array')">Code View</button>
+      </div>
+      <div id="array-log" style="background:#f8f8f8;border-radius:4px;padding:6px;height:120px;overflow-y:auto;font-size:0.92em;"></div>
+      <pre id="array-code" style="display:none;background:#ffffff;color:#000000;padding:10px;border-radius:6px;overflow-x:auto;margin-top:8px;">
+// C implementation
+int arr[100];
+int n = 0; // current size
+arr[n++] = 5; // add
+n--;         // remove last
+
+// C++ implementation
+#include &lt;vector&gt;
+std::vector&lt;int&gt; v;
+v.push_back(5);
+v.pop_back();
+  </pre>
+    </div>
+    <div class="ds-box" id="set-box">
+      <h2>
+        <a href="javascript:void(0)" onclick="openDSInfo('set')" style="color:inherit;text-decoration:underline;cursor:pointer;">
+          Set
+        </a>
+      </h2>
+      <div class="output" id="set-output"></div>
+      <div class="actions">
+        <input type="text" id="set-input" placeholder="Enter value">
+        <button onclick="setAdd()">Add</button>
+        <button onclick="setDelete()">Delete</button>
+        <button onclick="setClear()">Clear</button>
+        <button onclick="setRandom()">Random Data</button>
+        <button onclick="toggleCode('set')">Code View</button>
+      </div>
+      <div id="set-log" style="background:#f8f8f8;border-radius:4px;padding:6px;height:120px;overflow-y:auto;font-size:0.92em;"></div>
+      <pre id="set-code" style="display:none;background:#ffffff;color:#000000;padding:10px;border-radius:6px;overflow-x:auto;margin-top:8px;">
+// C implementation (using array, no duplicates)
+int set[100], size = 0;
+void add(int val) {
+  for(int i=0;i&lt;size;i++) if(set[i]==val) return;
+  set[size++] = val;
+}
+
+// C++ implementation
+#include &lt;set&gt;
+std::set&lt;int&gt; s;
+s.insert(1);
+s.erase(1);
+  </pre>
+    </div>
+    <div class="ds-box" id="tree-box">
+      <h2>
+        <a href="javascript:void(0)" onclick="openDSInfo('tree')" style="color:inherit;text-decoration:underline;cursor:pointer;">
+          Binary Tree
+        </a>
+      </h2>
+      <div class="output" id="tree-output"></div>
+      <div class="actions">
+        <input type="text" id="tree-input" placeholder="Enter value">
+        <button onclick="treeInsert()">Insert</button>
+        <button onclick="treeClear()">Clear</button>
+        <button onclick="treeRandom()">Random Data</button>
+        <button onclick="toggleCode('tree')">Code View</button>
+      </div>
+      <div id="tree-log" style="background:#f8f8f8;border-radius:4px;padding:6px;height:120px;overflow-y:auto;font-size:0.92em;"></div>
+      <pre id="tree-code" style="display:none;background:#ffffff;color:#000000;padding:10px;border-radius:6px;overflow-x:auto;margin-top:8px;">
+// C implementation
+struct Node {
+  int data;
+  struct Node* left;
+  struct Node* right;
+};
+
+// C++ implementation
+struct Node {
+  int data;
+  Node* left;
+  Node* right;
+};
+  </pre>
+    </div>
+    <div class="ds-box" id="heap-box">
+      <h2>
+        <a href="javascript:void(0)" onclick="openDSInfo('heap')" style="color:inherit;text-decoration:underline;cursor:pointer;">
+          Min Heap
+        </a>
+      </h2>
+      <div class="output" id="heap-output"></div>
+      <div class="actions">
+        <input type="number" id="heap-input" placeholder="Enter number">
+        <button onclick="heapInsert()">Insert</button>
+        <button onclick="heapExtract()">Extract Min</button>
+        <button onclick="heapClear()">Clear</button>
+        <button onclick="heapRandom()">Random Data</button>
+        <button onclick="toggleCode('heap')">Code View</button>
+      </div>
+      <div id="heap-log" style="background:#f8f8f8;border-radius:4px;padding:6px;height:120px;overflow-y:auto;font-size:0.92em;margin-top:10px"></div>
+      <pre id="heap-code" style="display:none;background:#ffffff;color:#000000;padding:10px;border-radius:6px;overflow-x:auto;margin-top:8px;">
+// C implementation (min heap insert)
+void insert(int heap[], int* size, int val) {
+  int i = ++(*size);
+  while(i &gt; 1 &amp;&amp; heap[i/2] &gt; val) {
+    heap[i] = heap[i/2];
+    i /= 2;
+  }
+  heap[i] = val;
+}
+
+// C++ implementation
+#include &lt;queue&gt;
+std::priority_queue&lt;int, std::vector&lt;int&gt;, std::greater&lt;int&gt;&gt; minHeap;
+minHeap.push(5);
+  </pre>
+    </div>
+    <div class="ds-box" id="hash-box">
+      <h2>
+        <a href="javascript:void(0)" onclick="openDSInfo('hash')" style="color:inherit;text-decoration:underline;cursor:pointer;">
+          Hash Table
+        </a>
+      </h2>
+      <div class="output" id="hash-output"></div>
+      <div class="actions" style="display: flex; flex-direction: column;">
+        <div style="display: flex; align-items: flex-start; gap: 4px; margin-bottom:4px;">
+          <input type="text" id="hash-key" placeholder="Key">
+          <button onclick="hashSet()">Set</button>
+          <button onclick="hashDelete()">Delete</button>
+          <button onclick="hashClear()">Clear</button>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 4px; margin-bottom:1px;">
+          <input type="text" id="hash-value" placeholder="Value">
+          <button onclick="hashRandom()">Random</button>
+          <button onclick="toggleCode('hash')">Code View</button>
+        </div>
+      </div>
+      <div id="hash-log" style="background:#f8f8f8;border-radius:4px;padding:6px;height:120px;overflow-y:auto;font-size:0.92em;"></div>
+      <pre id="hash-code" style="display:none;background:#ffffff;color:#000000;padding:10px;border-radius:6px;overflow-x:auto;margin-top:8px;">
+// C implementation (simple hash table)
+#define SIZE 100
+int hashTable[SIZE];
+int hash(int key) { return key % SIZE; }
+void insert(int key, int value) { hashTable[hash(key)] = value; }
+
+// C++ implementation
+#include &lt;unordered_map&gt;
+std::unordered_map&lt;int, int&gt; m;
+m[1] = 100;
+  </pre>
+    </div>
+    <div class="ds-box" id="avl-box">
+      <h2>
+        <a href="javascript:void(0)" onclick="openDSInfo('avl')" style="color:inherit;text-decoration:underline;cursor:pointer;">
+          AVL Tree
+        </a>
+      </h2>
+      <div class="output" id="avl-output"></div>
+      <div class="actions">
+        <input type="number" id="avl-input" placeholder="Enter number">
+        <button onclick="avlInsert()">Insert</button>
+        <button onclick="avlClear()">Clear</button>
+        <button onclick="avlRandom()">Random Data</button>
+        <button onclick="toggleCode('avl')">Code View</button>
+      </div>
+      <div id="avl-log" style="background:#f8f8f8;border-radius:4px;padding:6px;height:185px;overflow-y:auto;font-size:0.92em;margin-top:10px"></div>
+      <pre id="avl-code" style="display:none;background:#ffffff;color:#000000;padding:10px;border-radius:6px;overflow-x:auto;margin-top:8px;">
+// C++ AVL Tree Node
+struct Node {
+  int key, height;
+  Node *left, *right;
+};
+Node* insert(Node* node, int key);
+// Rotations and balancing...
+  </pre>
+    </div>
+  </div>
+  <script>
+    // Helper for logging operation statements
+    function logDS(ds, msg) {
+      const log = document.getElementById(ds + '-log');
+      if (!log) return;
+      log.innerHTML += `<div>${msg}</div>`;
+      log.scrollTop = log.scrollHeight;
+    }
+
+    // Helper for input error highlighting
+    function highlightError(inputId) {
+      const el = document.getElementById(inputId);
+      if (!el) return;
+      el.classList.add('input-error');
+      setTimeout(() => el.classList.remove('input-error'), 600);
+      el.focus();
+    }
+
+    // Stack
+    let stack = [];
+    function stackPush() {
+      const val = document.getElementById('stack-input').value;
+      if (val) {
+        stack.push(val);
+        logDS('stack', `Pushed "${val}" onto the stack.`);
+      } else {
+        logDS('stack', `Please enter a value to push.`);
+        highlightError('stack-input');
+      }
+      document.getElementById('stack-input').value = '';
+      renderStack();
+    }
+    function stackPop() {
+      if (stack.length > 0) {
+        const removed = stack.pop();
+        logDS('stack', `Popped "${removed}" from the stack.`);
+      } else {
+        logDS('stack', `Stack is already empty.`);
+      }
+      renderStack();
+    }
+    function renderStack() {
+      document.getElementById('stack-output').textContent = stack.length ? stack.join(' ← ') : '(Your Input)';
+    }
+    function stackClear() {
+      stack = [];
+      document.getElementById('stack-input').value = '';
+      document.getElementById('stack-log').innerHTML = '';
+      renderStack();
+      logDS('stack', 'Stack cleared.');
+    }
+    renderStack();
+
+    // Queue
+    let queue = [];
+    function queueEnqueue() {
+      const val = document.getElementById('queue-input').value;
+      if (val) {
+        queue.push(val);
+        logDS('queue', `Enqueued "${val}" to the queue.`);
+      } else {
+        logDS('queue', `Please enter a value to enqueue.`);
+        highlightError('queue-input');
+      }
+      document.getElementById('queue-input').value = '';
+      renderQueue();
+    }
+    function queueDequeue() {
+      if (queue.length > 0) {
+        const removed = queue.shift();
+        logDS('queue', `Dequeued "${removed}" from the queue.`);
+      } else {
+        logDS('queue', `Queue is already empty.`);
+      }
+      renderQueue();
+    }
+    function renderQueue() {
+      document.getElementById('queue-output').textContent = queue.length ? queue.join(' → ') : '(Your Input)';
+    }
+    function queueClear() {
+      queue = [];
+      document.getElementById('queue-input').value = '';
+      document.getElementById('queue-log').innerHTML = '';
+      renderQueue();
+      logDS('queue', 'Queue cleared.');
+    }
+    renderQueue();
+
+    // Linked List
+    class Node {
+      constructor(val) { this.val = val; this.next = null; }
+    }
+    let llHead = null;
+    function llAdd() {
+      const val = document.getElementById('ll-input').value;
+      if (!val) {
+        logDS('ll', `Please enter a value to add.`);
+        highlightError('ll-input');
+        return;
+      }
+      const node = new Node(val);
+      if (!llHead) {
+        llHead = node;
+        logDS('ll', `Added "${val}" as the head of the linked list.`);
+      } else {
+        let curr = llHead;
+        while (curr.next) curr = curr.next;
+        curr.next = node;
+        logDS('ll', `Added "${val}" to the end of the linked list.`);
+      }
+      document.getElementById('ll-input').value = '';
+      renderLL();
+    }
+    function llRemove() {
+      if (llHead) {
+        logDS('ll', `Removed head node ("${llHead.val}") from the linked list.`);
+        llHead = llHead.next;
+      } else {
+        logDS('ll', `Linked list is already empty.`);
+      }
+      renderLL();
+    }
+    function renderLL() {
+      let out = '';
+      let curr = llHead;
+      while (curr) {
+        out += curr.val + (curr.next ? ' → ' : '');
+        curr = curr.next;
+      }
+      document.getElementById('ll-output').textContent = out || '(Your Input)';
+    }
+    function llClear() {
+      llHead = null;
+      document.getElementById('ll-input').value = '';
+      document.getElementById('ll-log').innerHTML = '';
+      renderLL();
+      logDS('ll', 'Linked list cleared.');
+    }
+    renderLL();
+
+    // Array
+    let arr = [];
+    function arrayAdd() {
+      const val = document.getElementById('array-input').value;
+      if (val) {
+        arr.push(val);
+        logDS('array', `Added "${val}" to the end of the array.`);
+      } else {
+        logDS('array', `Please enter a value to add.`);
+        highlightError('array-input');
+      }
+      document.getElementById('array-input').value = '';
+      renderArray();
+    }
+    function arrayRemove() {
+      if (arr.length > 0) {
+        const removed = arr.pop();
+        logDS('array', `Removed "${removed}" from the end of the array.`);
+      } else {
+        logDS('array', `Array is already empty.`);
+      }
+      renderArray();
+    }
+    function renderArray() {
+      document.getElementById('array-output').textContent = arr.length ? `[${arr.join(', ')}]` : '(Your Input)';
+    }
+    function arrayClear() {
+      arr = [];
+      document.getElementById('array-input').value = '';
+      document.getElementById('array-log').innerHTML = '';
+      renderArray();
+      logDS('array', 'Array cleared.');
+    }
+    renderArray();
+
+    // Set
+    let set = new Set();
+    function setAdd() {
+      const val = document.getElementById('set-input').value;
+      if (val) {
+        if (set.has(val)) {
+          logDS('set', `"${val}" is already in the set (no duplicates allowed).`);
+          highlightError('set-input');
+        } else {
+          set.add(val);
+          logDS('set', `Added "${val}" to the set.`);
+        }
+      } else {
+        logDS('set', `Please enter a value to add.`);
+        highlightError('set-input');
+      }
+      document.getElementById('set-input').value = '';
+      renderSet();
+    }
+    function setDelete() {
+      let val = document.getElementById('set-input').value;
+      // Try to convert to number if possible
+      if (!isNaN(val) && val.trim() !== "") val = Number(val);
+      if (set.has(val)) {
+        set.delete(val);
+        logDS('set', `Deleted "${val}" from the set.`);
+      } else {
+        logDS('set', set.size === 0
+          ? `Set is already empty.`
+          : `"${val}" is not in the set.`);
+        highlightError('set-input');
+      }
+      document.getElementById('set-input').value = '';
+      renderSet();
+    }
+    function renderSet() {
+      document.getElementById('set-output').textContent = set.size ? `{${[...set].join(', ')}}` : '(Your Input)';
+    }
+    function setClear() {
+      set = new Set();
+      document.getElementById('set-input').value = '';
+      document.getElementById('set-log').innerHTML = '';
+      renderSet();
+      logDS('set', 'Set cleared.');
+    }
+    renderSet();
+
+    // --- Binary Tree ---
+    class TreeNode {
+      constructor(val) { this.val = val; this.left = null; this.right = null; }
+    }
+    let treeRoot = null;
+    function treeInsert() {
+      const val = document.getElementById('tree-input').value;
+      if (!val) {
+        logDS('tree', `Please enter a value to insert.`);
+        highlightError('tree-input');
+        return;
+      }
+      treeRoot = insertTreeNode(treeRoot, val);
+      logDS('tree', `Inserted "${val}" into the binary tree.`);
+      document.getElementById('tree-input').value = '';
+      renderTree();
+    }
+    function insertTreeNode(root, val) {
+      if (!root) return new TreeNode(val);
+      if (val < root.val) root.left = insertTreeNode(root.left, val);
+      else root.right = insertTreeNode(root.right, val);
+      return root;
+    }
+    function treeClear() {
+      treeRoot = null;
+      document.getElementById('tree-input').value = '';
+      document.getElementById('tree-log').innerHTML = '';
+      renderTree();
+      logDS('tree', 'Binary tree cleared.');
+    }
+    function renderTree() {
+      const container = document.getElementById('tree-output');
+      container.innerHTML = '';
+      if (!treeRoot) {
+        container.textContent = '(Your Input)';
+        return;
+      }
+      // SVG tree drawing
+      const svgNS = "http://www.w3.org/2000/svg";
+      const width = 320, height = 180;
+      const svg = document.createElementNS(svgNS, "svg");
+      svg.setAttribute("width", width);
+      svg.setAttribute("height", height);
+
+      // Calculate positions
+      let positions = {};
+      function setPositions(node, depth, x, minX, maxX) {
+        if (!node) return;
+        positions[node.val] = { x, y: 30 + depth * 40 };
+        if (node.left) setPositions(node.left, depth + 1, minX + (x - minX) / 2, minX, x);
+        if (node.right) setPositions(node.right, depth + 1, x + (maxX - x) / 2, x, maxX);
+      }
+      setPositions(treeRoot, 0, width / 2, 0, width);
+
+      // Draw edges
+      function drawEdges(node) {
+        if (!node) return;
+        if (node.left) {
+          let p1 = positions[node.val], p2 = positions[node.left.val];
+          let line = document.createElementNS(svgNS, "line");
+          line.setAttribute("x1", p1.x); line.setAttribute("y1", p1.y + 15);
+          line.setAttribute("x2", p2.x); line.setAttribute("y2", p2.y - 15);
+          line.setAttribute("stroke", "#555");
+          svg.appendChild(line);
+          drawEdges(node.left);
+        }
+        if (node.right) {
+          let p1 = positions[node.val], p2 = positions[node.right.val];
+          let line = document.createElementNS(svgNS, "line");
+          line.setAttribute("x1", p1.x); line.setAttribute("y1", p1.y + 15);
+          line.setAttribute("x2", p2.x); line.setAttribute("y2", p2.y - 15);
+          line.setAttribute("stroke", "#555");
+          svg.appendChild(line);
+          drawEdges(node.right);
+        }
+      }
+      drawEdges(treeRoot);
+
+      // Draw nodes
+      function drawNodes(node) {
+        if (!node) return;
+        let p = positions[node.val];
+        let circle = document.createElementNS(svgNS, "circle");
+        circle.setAttribute("cx", p.x);
+        circle.setAttribute("cy", p.y);
+        circle.setAttribute("r", 15);
+        circle.setAttribute("fill", "#ed9e44");
+        circle.setAttribute("stroke", "#333");
+        svg.appendChild(circle);
+
+        let text = document.createElementNS(svgNS, "text");
+        text.setAttribute("x", p.x);
+        text.setAttribute("y", p.y + 5);
+        text.setAttribute("text-anchor", "middle");
+        text.setAttribute("font-size", "15");
+        text.setAttribute("fill", "#222");
+        text.textContent = node.val;
+        svg.appendChild(text);
+
+        drawNodes(node.left);
+        drawNodes(node.right);
+      }
+      drawNodes(treeRoot);
+
+      container.appendChild(svg);
+    }
+
+    // --- Min Heap ---
+    let heap = [];
+    function heapInsert() {
+      const val = document.getElementById('heap-input').value;
+      if (val === "" || isNaN(Number(val))) {
+        logDS('heap', `Please enter a number to insert.`);
+        highlightError('heap-input');
+        return;
+      }
+      const num = Number(val);
+      heap.push(num);
+      heapifyUp(heap.length - 1);
+      logDS('heap', `Inserted "${num}" into the min heap.`);
+      document.getElementById('heap-input').value = '';
+      renderHeap();
+    }
+    function heapifyUp(i) {
+      while (i > 0) {
+        let p = Math.floor((i - 1) / 2);
+        if (heap[p] > heap[i]) {
+          [heap[p], heap[i]] = [heap[i], heap[p]];
+          i = p;
+        } else break;
+      }
+    }
+    function heapExtract() {
+      if (heap.length === 0) {
+        logDS('heap', `Heap is already empty.`);
+        return;
+      }
+      const min = heap[0];
+      heap[0] = heap.pop();
+      heapifyDown(0);
+      logDS('heap', `Extracted minimum value "${min}" from the heap.`);
+      renderHeap();
+    }
+    function heapifyDown(i) {
+      let left = 2 * i + 1, right = 2 * i + 2, smallest = i;
+      if (left < heap.length && heap[left] < heap[smallest]) smallest = left;
+      if (right < heap.length && heap[right] < heap[smallest]) smallest = right;
+      if (smallest !== i) {
+        [heap[i], heap[smallest]] = [heap[smallest], heap[i]];
+        heapifyDown(smallest);
+      }
+    }
+    function renderHeap() {
+      document.getElementById('heap-output').textContent = heap.length ? heap.join(', ') : '(Your Input)';
+    }
+    function heapClear() {
+      heap = [];
+      document.getElementById('heap-input').value = '';
+      document.getElementById('heap-log').innerHTML = '';
+      renderHeap();
+      logDS('heap', 'Heap cleared.');
+    }
+    renderHeap();
+
+    // --- Hash Table ---
+    let hashTable = {};
+    function hashSet() {
+      const key = document.getElementById('hash-key').value;
+      const value = document.getElementById('hash-value').value;
+      if (!key) {
+        logDS('hash', `Please enter a key to set.`);
+        highlightError('hash-key');
+        return;
+      }
+      hashTable[key] = value;
+      logDS('hash', `Set key "${key}" to value "${value}".`);
+      document.getElementById('hash-key').value = '';
+      document.getElementById('hash-value').value = '';
+      renderHash();
+    }
+    function hashDelete() {
+      const key = document.getElementById('hash-key').value;
+      if (!key) {
+        logDS('hash', `Please enter a key to delete.`);
+        highlightError('hash-key');
+        return;
+      }
+      if (key in hashTable) {
+        delete hashTable[key];
+        logDS('hash', `Deleted key "${key}" from the hash table.`);
+      } else {
+        logDS('hash', `Key "${key}" not found in the hash table.`);
+        highlightError('hash-key');
+      }
+      document.getElementById('hash-key').value = '';
+      renderHash();
+    }
+    function renderHash() {
+      let out = '';
+      for (let k in hashTable) {
+        out += `${k}: ${hashTable[k]}, `;
+      }
+      document.getElementById('hash-output').textContent = out ? out.slice(0, -2) : '(Your Input)';
+    }
+    function hashClear() {
+      hashTable = {};
+      document.getElementById('hash-key').value = '';
+      document.getElementById('hash-value').value = '';
+      document.getElementById('hash-log').innerHTML = '';
+      renderHash();
+      logDS('hash', 'Hash table cleared.');
+    }
+    renderHash();
+
+    // --- AVL Tree ---
+    class AVLNode {
+      constructor(val) {
+        this.val = val;
+        this.left = null;
+        this.right = null;
+        this.height = 1;
+      }
+    }
+    let avlRoot = null;
+
+    function avlInsert() {
+      const val = document.getElementById('avl-input').value;
+      if (val === "" || isNaN(Number(val))) {
+        logDS('avl', `Please enter a number to insert.`);
+        highlightError('avl-input');
+        return;
+      }
+      avlRoot = avlInsertNode(avlRoot, Number(val));
+      logDS('avl', `Inserted "${val}" into the AVL tree.`);
+      document.getElementById('avl-input').value = '';
+      renderAVL();
+    }
+
+    function avlHeight(node) {
+      return node ? node.height : 0;
+    }
+
+    function avlBalance(node) {
+      return node ? avlHeight(node.left) - avlHeight(node.right) : 0;
+    }
+
+    function avlRightRotate(y) {
+      const x = y.left;
+      const T2 = x.right;
+      x.right = y;
+      y.left = T2;
+      y.height = Math.max(avlHeight(y.left), avlHeight(y.right)) + 1;
+      x.height = Math.max(avlHeight(x.left), avlHeight(x.right)) + 1;
+      return x;
+    }
+
+    function avlLeftRotate(x) {
+      const y = x.right;
+      const T2 = y.left;
+      y.left = x;
+      x.right = T2;
+      x.height = Math.max(avlHeight(x.left), avlHeight(x.right)) + 1;
+      y.height = Math.max(avlHeight(y.left), avlHeight(y.right)) + 1;
+      return y;
+    }
+
+    function avlInsertNode(node, val) {
+      if (!node) return new AVLNode(val);
+      if (val < node.val) node.left = avlInsertNode(node.left, val);
+      else if (val > node.val) node.right = avlInsertNode(node.right, val);
+      else return node; // No duplicates
+
+      node.height = 1 + Math.max(avlHeight(node.left), avlHeight(node.right));
+      const balance = avlBalance(node);
+
+      // Left Left
+      if (balance > 1 && val < node.left.val) return avlRightRotate(node);
+      // Right Right
+      if (balance < -1 && val > node.right.val) return avlLeftRotate(node);
+      // Left Right
+      if (balance > 1 && val > node.left.val) {
+        node.left = avlLeftRotate(node.left);
+        return avlRightRotate(node);
+      }
+      // Right Left
+      if (balance < -1 && val < node.right.val) {
+        node.right = avlRightRotate(node.right);
+        return avlLeftRotate(node);
+      }
+      return node;
+    }
+
+    function avlClear() {
+      avlRoot = null;
+      document.getElementById('avl-input').value = '';
+      document.getElementById('avl-log').innerHTML = '';
+      renderAVL();
+      logDS('avl', 'AVL tree cleared.');
+    }
+
+    function avlRandom() {
+      avlRoot = null;
+      let nums = [];
+      while (nums.length < 5) {
+        let n = getRandomInt(10, 99);
+        if (!nums.includes(n)) nums.push(n);
+      }
+      nums.forEach(n => avlRoot = avlInsertNode(avlRoot, n));
+      document.getElementById('avl-log').innerHTML = '';
+      logDS('avl', 'Random AVL tree generated.');
+      renderAVL();
+    }
+
+    function renderAVL() {
+      const container = document.getElementById('avl-output');
+      container.innerHTML = '';
+      if (!avlRoot) {
+        container.textContent = '(Your Input)';
+        return;
+      }
+      // SVG tree drawing
+      const svgNS = "http://www.w3.org/2000/svg";
+      const width = 320, height = 180;
+      const svg = document.createElementNS(svgNS, "svg");
+      svg.setAttribute("width", width);
+      svg.setAttribute("height", height);
+
+      // Calculate positions
+      let positions = {};
+      function setPositions(node, depth, x, minX, maxX) {
+        if (!node) return;
+        positions[node.val] = { x, y: 30 + depth * 40 };
+        if (node.left) setPositions(node.left, depth + 1, minX + (x - minX) / 2, minX, x);
+        if (node.right) setPositions(node.right, depth + 1, x + (maxX - x) / 2, x, maxX);
+      }
+      setPositions(avlRoot, 0, width / 2, 0, width);
+
+      // Draw edges
+      function drawEdges(node) {
+        if (!node) return;
+        if (node.left) {
+          let p1 = positions[node.val], p2 = positions[node.left.val];
+          let line = document.createElementNS(svgNS, "line");
+          line.setAttribute("x1", p1.x); line.setAttribute("y1", p1.y + 15);
+          line.setAttribute("x2", p2.x); line.setAttribute("y2", p2.y - 15);
+          line.setAttribute("stroke", "#555");
+          svg.appendChild(line);
+          drawEdges(node.left);
+        }
+        if (node.right) {
+          let p1 = positions[node.val], p2 = positions[node.right.val];
+          let line = document.createElementNS(svgNS, "line");
+          line.setAttribute("x1", p1.x); line.setAttribute("y1", p1.y + 15);
+          line.setAttribute("x2", p2.x); line.setAttribute("y2", p2.y - 15);
+          line.setAttribute("stroke", "#555");
+          svg.appendChild(line);
+          drawEdges(node.right);
+        }
+      }
+      drawEdges(avlRoot);
+
+      // Draw nodes
+      function drawNodes(node) {
+        if (!node) return;
+        let p = positions[node.val];
+        let circle = document.createElementNS(svgNS, "circle");
+        circle.setAttribute("cx", p.x);
+        circle.setAttribute("cy", p.y);
+        circle.setAttribute("r", 15);
+        circle.setAttribute("fill", "#ed9e44");
+        circle.setAttribute("stroke", "#333");
+        svg.appendChild(circle);
+
+        let text = document.createElementNS(svgNS, "text");
+        text.setAttribute("x", p.x);
+        text.setAttribute("y", p.y + 5);
+        text.setAttribute("text-anchor", "middle");
+        text.setAttribute("font-size", "15");
+        text.setAttribute("fill", "#222");
+        text.textContent = node.val;
+        svg.appendChild(text);
+
+        drawNodes(node.left);
+        drawNodes(node.right);
+      }
+      drawNodes(avlRoot);
+
+      container.appendChild(svg);
+    }
+
+    // Add AVL info for openDSInfo
+    const info = {
+      stack: {
+        title: "Stack (LIFO)",
+        definition: "A stack is a linear data structure that follows the Last In First Out (LIFO) principle.",
+        explanation: "Elements are added and removed from the top of the stack. Common operations are push (add) and pop (remove).",
+        example: "Example: Undo functionality in editors, browser history.",
+        code: `// Stack in JavaScript
+let stack = [];
+stack.push(1); // [1]
+stack.push(2); // [1,2]
+stack.pop();   // [1]`
+      },
+      queue: {
+        title: "Queue (FIFO)",
+        definition: "A queue is a linear data structure that follows the First In First Out (FIFO) principle.",
+        explanation: "Elements are added at the rear and removed from the front. Common operations are enqueue (add) and dequeue (remove).",
+        example: "Example: Print queue, task scheduling.",
+        code: `// Queue in JavaScript
+let queue = [];
+queue.push(1); // [1]
+queue.push(2); // [1,2]
+queue.shift(); // [2]`
+      },
+      linkedlist: {
+        title: "Singly Linked List",
+        definition: "A linked list is a linear data structure where each element points to the next.",
+        explanation: "Each node contains data and a reference to the next node. Useful for dynamic memory allocation.",
+        example: "Example: Implementing stacks and queues, navigation systems.",
+        code: `// Node definition
+class Node {
+  constructor(val) { this.val = val; this.next = null; }
+}
+// Add to end
+let head = new Node(1);
+head.next = new Node(2);`
+      },
+      array: {
+        title: "Array",
+        definition: "An array is a collection of elements stored at contiguous memory locations.",
+        explanation: "Arrays allow random access and are used for storing multiple values.",
+        example: "Example: Storing a list of numbers, strings, etc.",
+        code: `// Array in JavaScript
+let arr = [1, 2, 3];
+arr.push(4); // [1,2,3,4]
+arr.pop();   // [1,2,3]`
+      },
+      set: {
+        title: "Set",
+        definition: "A set is a collection of unique elements.",
+        explanation: "Sets do not allow duplicate values and are useful for membership tests.",
+        example: "Example: Unique user IDs, removing duplicates.",
+        code: `// Set in JavaScript
+let set = new Set();
+set.add(1);
+set.add(2);
+set.add(1); // still {1,2}`
+      },
+      tree: {
+        title: "Binary Tree",
+        definition: "A tree is a hierarchical data structure with nodes connected by edges.",
+        explanation: "A binary tree is a tree where each node has at most two children.",
+        example: "Example: File systems, expression parsing.",
+        code: `// Binary Tree Node
+class TreeNode {
+  constructor(val) {
+    this.val = val;
+    this.left = null;
+    this.right = null;
+  }
+}`
+      },
+      heap: {
+        title: "Min Heap",
+        definition: "A heap is a special tree-based data structure that satisfies the heap property.",
+        explanation: "In a min heap, the parent node is always less than or equal to its children.",
+        example: "Example: Priority queues, heap sort.",
+        code: `// Min Heap insert
+let heap = [];
+function insert(val) {
+  heap.push(val);
+  // heapify up...
+}`
+      },
+      hash: {
+        title: "Hash Table",
+        definition: "A hash table stores key-value pairs using a hash function to compute an index.",
+        explanation: "Allows fast access, insertion, and deletion by key.",
+        example: "Example: Caches, dictionaries.",
+        code: `// Hash Table in JS
+let obj = {};
+obj['key'] = 'value';
+console.log(obj['key']);`
+      },
+      avl: {
+        title: "AVL Tree",
+        definition: "An AVL tree is a self-balancing binary search tree where the heights of the two child subtrees of any node differ by at most one.",
+        explanation: "After every insertion, the tree balances itself using rotations to maintain O(log n) height.",
+        example: "Example: Used in databases and file systems for fast lookup, insert, and delete.",
+        code: `// AVL Tree Node (JS)
+class AVLNode {
+  constructor(val) {
+    this.val = val;
+    this.left = null;
+    this.right = null;
+    this.height = 1;
+  }
+}
+// Insert, rotations, and balancing...`
+      }
+    };
+
+    function openDSInfo(ds) {
+      const dsInfo = info[ds];
+      if (!dsInfo) return;
+
+      // Create HTML for the new tab
+      const html = `
+        <html>
+        <head>
+          <title>${dsInfo.title} - Info</title>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 40px; background: #f9f9f9; }
+            h1 { color: #2c3e50; }
+            pre { background: #f4f4f4; padding: 12px; border-radius: 6px; }
+            .section { margin-bottom: 24px; }
+          </style>
+        </head>
+        <body>
+          <h1>${dsInfo.title}</h1>
+          <div class="section"><strong>Definition:</strong> ${dsInfo.definition}</div>
+          <div class="section"><strong>Explanation:</strong> ${dsInfo.explanation}</div>
+          <div class="section"><strong>Example:</strong> ${dsInfo.example}</div>
+          <div class="section"><strong>Code:</strong><pre>${dsInfo.code}</pre></div>
+        </body>
+        </html>
+      `;
+      const win = window.open();
+      win.document.write(html);
+      win.document.close();
+    }
+
+    // Random Data Generators
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    function getRandomString(length = 2) {
+      const chars = "abcdefghijklmnopqrstuvwxyz";
+      let str = "";
+      for (let i = 0; i < length; i++) str += chars[getRandomInt(0, chars.length - 1)];
+      return str;
+    }
+
+    // Stack
+    function stackRandom() {
+      stack = [];
+      for (let i = 0; i < 5; i++) stack.push(getRandomInt(10, 99));
+      document.getElementById('stack-log').innerHTML = '';
+      logDS('stack', 'Random stack generated.');
+      renderStack();
+    }
+
+    // Queue
+    function queueRandom() {
+      queue = [];
+      for (let i = 0; i < 5; i++) queue.push(getRandomInt(10, 99));
+      document.getElementById('queue-log').innerHTML = '';
+      logDS('queue', 'Random queue generated.');
+      renderQueue();
+    }
+
+    // Linked List
+    function llRandom() {
+      llHead = null;
+      let last = null;
+      for (let i = 0; i < 5; i++) {
+        const node = new Node(getRandomInt(10, 99));
+        if (!llHead) llHead = node;
+        else last.next = node;
+        last = node;
+      }
+      document.getElementById('ll-log').innerHTML = '';
+      logDS('ll', 'Random linked list generated.');
+      renderLL();
+    }
+
+    // Array
+    function arrayRandom() {
+      arr = [];
+      for (let i = 0; i < 5; i++) arr.push(getRandomInt(10, 99));
+      document.getElementById('array-log').innerHTML = '';
+      logDS('array', 'Random array generated.');
+      renderArray();
+    }
+
+    // Set
+    function setRandom() {
+      set = new Set();
+      while (set.size < 5) set.add(getRandomInt(10, 99));
+      document.getElementById('set-log').innerHTML = '';
+      logDS('set', 'Random set generated.');
+      renderSet();
+    }
+
+    // Tree
+    function treeRandom() {
+      treeRoot = null;
+      for (let i = 0; i < 5; i++) {
+        treeRoot = insertTreeNode(treeRoot, getRandomInt(10, 99));
+      }
+      document.getElementById('tree-log').innerHTML = '';
+      logDS('tree', 'Random binary tree generated.');
+      renderTree();
+    }
+
+    // Heap
+    function heapRandom() {
+      heap = [];
+      for (let i = 0; i < 5; i++) heap.push(getRandomInt(10, 99));
+      // Heapify the array
+      for (let i = Math.floor(heap.length / 2) - 1; i >= 0; i--) heapifyDown(i);
+      document.getElementById('heap-log').innerHTML = '';
+      logDS('heap', 'Random min heap generated.');
+      renderHeap();
+    }
+
+    // Hash Table
+    function hashRandom() {
+      hashTable = {};
+      let used = new Set();
+      while (Object.keys(hashTable).length < 5) {
+        const key = getRandomInt(10, 99);
+        if (!used.has(key)) {
+          used.add(key);
+          const value = getRandomInt(10, 99);
+          hashTable[key] = value;
+        }
+      }
+      document.getElementById('hash-log').innerHTML = '';
+      logDS('hash', 'Random hash table generated.');
+      renderHash();
+    }
+
+    // Code View Toggle for all data structures
+    function toggleCode(ds) {
+      const codeBlock = document.getElementById(ds + '-code');
+      if (!codeBlock) return;
+      codeBlock.style.display = codeBlock.style.display === 'none' ? 'block' : 'none';
+    }
+  </script>
+</body>
+</html>
